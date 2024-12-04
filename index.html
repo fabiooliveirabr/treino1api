@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <title>Aula 01 API</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Aula 01 API</h1>
+    <button id="btnCarregar">Carregar</button>
+    <div id="conteudo"></div>
+
+    <script>
+        $(document).ready(function(){
+            $("#btnCarregar").click(function(){
+                $("#conteudo").html("Carregando...");
+                $.ajax({
+                    url: "https://fabiooliveira.cloud/aula_api_03/",
+                    method: "GET",
+                    data: {api_key: "eaf6c5fe009a07fb3ec3d7f33adcb932"},
+                    dataType: "json",
+                    success: function(resposta){
+                        $("#conteudo").html("");
+                        resposta.forEach(item=>{
+                            var conteudoHTML = "";
+                            conteudoHTML += `<div id='cartoes'>
+                                     <img src='${item.imagem}' width='50'>
+                                    <br>";
+                                     <i>Cod. ${item.id_produto}</i>
+                                    <br>
+                                    <h1> R$ ${item.preco}</h1>                        
+                                    <h2>${item.nome_produto}</h2>
+                                    <br>
+                                    Disponíveis: ${item.estoque}
+                                    <br>
+                                    Categoria: ${item.categoria}
+                                    <br>
+                                     </div>`;
+                            $("#conteudo").append(conteudoHTML);
+                        });
+                    },
+                    error: function(){
+                        alert("Falha ao carregar a API");
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
